@@ -1,0 +1,31 @@
+package com.mohan.shiftly.exception;
+
+import com.mohan.shiftly.dto.ErrorResponseDto;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDateTime;
+
+@RestControllerAdvice
+@RequiredArgsConstructor
+public class GlobalExceptionHandler {
+    public ResponseEntity<ErrorResponseDto> buildResponse(HttpStatus status, Exception ex, String path){
+        ErrorResponseDto response=new ErrorResponseDto();
+        response.setTimeStamp(LocalDateTime.now());
+        response.setPath(path);
+        response.setError(status.getReasonPhrase());
+        response.setStatus(status.value());
+        response.setMessage(ex.getMessage());
+
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistsEx.class)
+    public ResponseEntity<ErrorResponseDto> handleAlreadyExistsEx(Exception ex, HttpServletRequest request){
+        return buildResponse(HttpStatus.CONFLICT,ex,request.getRequestURI());
+    }
+}

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: shiftly
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/shiftly_db?createDatabaseIfNotExist=true
+    username: root
+    password: King@2025
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+admin:
+  email: ${ADMIN_EMAIL}
+  password: ${ADMIN_PASSWORD}
