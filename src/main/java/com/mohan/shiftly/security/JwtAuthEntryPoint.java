@@ -18,15 +18,15 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
        Throwable cause= (Throwable) request.getAttribute("jwt_exception");
 
-       if(cause!=null && cause.getMessage()!=null){
+        if(cause!=null && cause.getCause()!=null){
            cause=cause.getCause();
-       }
+        }
 
        response.setContentType("application/json");
        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
        if(cause instanceof ExpiredJwtException){
-           response.getWriter().write("{\"message\": \"Jwt token expired}");
+           response.getWriter().write("{\"message\": \"Jwt token expired\"}");
        } else if (cause instanceof SignatureException) {
            response.getWriter().write("{\"message\": \"Invalid Jwt Signature\"}");
        } else if (cause instanceof MalformedJwtException) {

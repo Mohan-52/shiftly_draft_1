@@ -9,6 +9,5 @@ public class UserRegisterReqDto {
     private String email;
     private String password;
     private String role;
-    private Long managerId;
     private Long departmentId;
 }

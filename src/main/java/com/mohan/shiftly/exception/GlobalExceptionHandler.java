@@ -34,6 +34,12 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNAUTHORIZED,ex,request.getRequestURI());
     }
 
+    @ExceptionHandler(ResourceNotFoundEx.class)
+    public ResponseEntity<ErrorResponseDto> handleNotFoundEx(Exception ex, HttpServletRequest request){
+        return buildResponse(HttpStatus.NOT_FOUND,ex,request.getRequestURI());
+
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleAnyEx(Exception ex, HttpServletRequest request){
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex,request.getRequestURI());
