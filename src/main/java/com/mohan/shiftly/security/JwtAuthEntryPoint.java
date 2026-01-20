@@ -34,6 +34,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
        } else if (cause!=null) {
            response.getWriter().write("{\"message\": \""+cause.getMessage()+"\"}");
        } else {
+           System.out.println("Exception Called");
            response.getWriter().write("{\"message:\":\"Missing or Invalid Jwt Token\"}");
        }
     }

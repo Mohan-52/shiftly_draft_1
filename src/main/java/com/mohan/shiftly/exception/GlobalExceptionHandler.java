@@ -28,4 +28,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleAlreadyExistsEx(Exception ex, HttpServletRequest request){
         return buildResponse(HttpStatus.CONFLICT,ex,request.getRequestURI());
     }
+
+    @ExceptionHandler(InvalidCrenentialEx.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidCredEx(Exception ex, HttpServletRequest request){
+        return buildResponse(HttpStatus.UNAUTHORIZED,ex,request.getRequestURI());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDto> handleAnyEx(Exception ex, HttpServletRequest request){
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex,request.getRequestURI());
+    }
 }

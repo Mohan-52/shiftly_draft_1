@@ -1,7 +1,7 @@
 package com.mohan.shiftly.exception;
 
-public class InavlidCrenentialEx extends RuntimeException {
-  public InavlidCrenentialEx(String message) {
-    super(message);
-  }
+public class InvalidCrenentialEx extends RuntimeException {
+    public InvalidCrenentialEx(String message) {
+        super(message);
+    }
 }
