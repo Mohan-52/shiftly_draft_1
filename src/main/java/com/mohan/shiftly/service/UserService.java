@@ -15,7 +15,6 @@ import com.mohan.shiftly.repository.DepartmentRepository;
 import com.mohan.shiftly.repository.UserRepository;
 import com.mohan.shiftly.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
