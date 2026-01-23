@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class Attendance {
     private User user;
 
     private LocalDate attendanceDate;
-    private LocalDateTime clockInTime;
-    private LocalDateTime clockOutTime;
-    private String totalWorkingHours;
+    private LocalTime clockInTime;
+    private LocalTime clockOutTime;
+    private Double totalWorkingHours;
 }

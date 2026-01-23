@@ -40,8 +40,14 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(ClockOutEx.class)
+    public ResponseEntity<ErrorResponseDto> handleClockOutEx(Exception ex, HttpServletRequest request){
+        return buildResponse(HttpStatus.BAD_REQUEST,ex,request.getRequestURI());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleAnyEx(Exception ex, HttpServletRequest request){
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex,request.getRequestURI());
     }
+
 }

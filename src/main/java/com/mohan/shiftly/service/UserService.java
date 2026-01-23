@@ -27,11 +27,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final DepartmentRepository departmentRepo;
     private final JwtUtil jwtUtil;
+    private final Utilities utilities;
 
-    private User getLoggedInUser(){
-        String email= SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email).get();
-    }
+
 
     public GenericResDto registerUser(UserRegisterReqDto reqDto){
         if(userRepository.existsByEmail(reqDto.getEmail())){
@@ -59,7 +57,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(reqDto.getPassword()));
         user.setEmail(reqDto.getEmail());
         user.setDepartment(department);
-        user.setManager(getLoggedInUser());
+        user.setManager(utilities.getLoggedInUser());
 
         User savedUser= userRepository.save(user);
 
