@@ -2,6 +2,7 @@ package com.mohan.shiftly.service;
 
 import com.mohan.shiftly.dto.GenericResDto;
 import com.mohan.shiftly.dto.TaskReqDto;
+import com.mohan.shiftly.dto.TaskResDto;
 import com.mohan.shiftly.entity.Task;
 import com.mohan.shiftly.entity.User;
 import com.mohan.shiftly.enums.Priority;
@@ -12,12 +13,30 @@ import com.mohan.shiftly.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepo;
     private final Utilities utilities;
     private final UserRepository userRepo;
+
+
+    private TaskResDto mapToDto(Task task){
+        TaskResDto response=new TaskResDto();
+        response.setId(task.getId());
+        response.setTitle(task.getTitle());
+        response.setCreatedAt(task.getCreatedAt());
+        response.setDescription(task.getDescription());
+        response.setPriority(task.getPriority());
+        response.setAssignedBy(task.getAssignedBy().getFirstName());
+        response.setStatus(task.getTaskStatus());
+        response.setDueDate(task.getDueDate());
+
+
+        return response;
+    }
 
     public GenericResDto assignTask(TaskReqDto request){
         Task task=new Task();
@@ -44,6 +63,13 @@ public class TaskService {
        Task savedTask= taskRepo.save(task);
 
        return new GenericResDto("Task Successfully created with id "+savedTask.getId());
+    }
+
+    public List<TaskResDto> getMyPendingTask(){
+        return taskRepo.findByAssignedTo_IdAndTaskStatusNot(utilities.getLoggedInUser().getId(), TaskStatus.COMPLETED)
+                .stream()
+                .map(this::mapToDto)
+                .toList();
     }
 
 }
