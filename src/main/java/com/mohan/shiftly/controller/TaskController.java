@@ -29,4 +29,9 @@ public class TaskController {
     public List<TaskResDto> getMyPendingTask(){
         return service.getMyPendingTask();
     }
+
+    @PutMapping("/{id}")
+    public GenericResDto updateTaskStatus(@PathVariable Long id, @RequestParam String status){
+        return service.updateTask(id,status);
+    }
 }

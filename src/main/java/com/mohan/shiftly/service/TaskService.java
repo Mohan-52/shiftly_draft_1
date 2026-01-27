@@ -72,4 +72,25 @@ public class TaskService {
                 .toList();
     }
 
+    public GenericResDto updateTask(Long id, String status){
+        TaskStatus taskStatus;
+
+        try {
+            taskStatus=TaskStatus.valueOf(status);
+        }catch (Exception ex){
+            throw new IllegalArgumentException("In valid Task Status");
+
+        }
+
+        Task task=taskRepo.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundEx("Task Not found with id "+id));
+
+        task.setTaskStatus(taskStatus);
+
+        Task updatedTask=taskRepo.save(task);
+
+        return new GenericResDto("Successfully updated task with id "+id+" status of "+updatedTask.getTaskStatus().name());
+
+    }
+
 }
