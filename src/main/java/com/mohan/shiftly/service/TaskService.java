@@ -11,6 +11,9 @@ import com.mohan.shiftly.exception.ResourceNotFoundEx;
 import com.mohan.shiftly.repository.TaskRepository;
 import com.mohan.shiftly.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +36,6 @@ public class TaskService {
         response.setAssignedBy(task.getAssignedBy().getFirstName());
         response.setStatus(task.getTaskStatus());
         response.setDueDate(task.getDueDate());
-
 
         return response;
     }
@@ -65,8 +67,12 @@ public class TaskService {
        return new GenericResDto("Task Successfully created with id "+savedTask.getId());
     }
 
-    public List<TaskResDto> getMyPendingTask(){
-        return taskRepo.findByAssignedTo_IdAndTaskStatusNot(utilities.getLoggedInUser().getId(), TaskStatus.COMPLETED)
+    public List<TaskResDto> getMyPendingTask(int page, int size){
+
+       Sort s=Sort.by(Sort.Order.asc("dueDate"));
+        Pageable pageable= PageRequest.of(page, size, s);
+        return taskRepo.findByAssignedTo_IdAndTaskStatusNot(utilities.getLoggedInUser().getId(), TaskStatus.COMPLETED, pageable)
+                .getContent()
                 .stream()
                 .map(this::mapToDto)
                 .toList();

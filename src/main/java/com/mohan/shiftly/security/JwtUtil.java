@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     private String JWT_SECRECT="ADSUHKJDKJDFBKJBVKLFNBSVKJSFHKJSFH";
-    private Long JWT_EXPIRATION=24*60*60*1000L;
+    private Long JWT_EXPIRATION=7*24*60*60*1000L;
 
     private Key getSiginKey(){
         return Keys.hmacShaKeyFor(JWT_SECRECT.getBytes());
