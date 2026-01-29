@@ -41,9 +41,9 @@ public class LeaveRequestService {
         request.setStatus(LeaveStatus.PENDING);
         request.setUser(user);
         request.setManager(user.getManager());
-        leaveRequestRepo.save(request);
+        LeaveRequest savedRequest= leaveRequestRepo.save(request);
 
-        return new GenericResDto("Leave Successfully applied");
+        return new GenericResDto("Leave Successfully applied with id"+savedRequest.getId());
 
     }
 

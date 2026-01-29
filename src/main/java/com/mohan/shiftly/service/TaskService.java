@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class TaskService {
     private final TaskRepository taskRepo;
     private final Utilities utilities;
     private final UserRepository userRepo;
+    private final SimpMessagingTemplate messagingTemplate;
 
 
     private TaskResDto mapToDto(Task task){
@@ -63,6 +65,12 @@ public class TaskService {
         task.setTitle(request.getTitle());
 
        Task savedTask= taskRepo.save(task);
+
+        messagingTemplate.convertAndSendToUser(
+                user.getId().toString(),      // the user who receives the task
+                "/queue/task-updates",        // private WebSocket destination
+                mapToDto(savedTask)                       // message payload
+        );
 
        return new GenericResDto("Task Successfully created with id "+savedTask.getId());
     }
